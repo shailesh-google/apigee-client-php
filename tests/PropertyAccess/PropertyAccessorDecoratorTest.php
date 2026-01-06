@@ -24,14 +24,13 @@ use Exception;
 
 use const PHP_VERSION_ID;
 
-use ReflectionClass;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Symfony\Component\PropertyAccess\Tests\PropertyAccessorTest;
 use TypeError;
+use PHPUnit\Framework\TestCase;
 
-class PropertyAccessorDecoratorTest extends PropertyAccessorTest
+class PropertyAccessorDecoratorTest extends TestCase
 {
     use PhpUnitBcBridgeTrait;
 
@@ -48,7 +47,7 @@ class PropertyAccessorDecoratorTest extends PropertyAccessorTest
      */
     public static function setUpBeforeClass(): void
     {
-        parent::setUpBeforeClass();
+        // Set up a test object used by the decorator-specific tests below.
         static::$testObj = new class {
             /** @var string[] */
             private $shouldBeAStringArray;
@@ -117,15 +116,7 @@ class PropertyAccessorDecoratorTest extends PropertyAccessorTest
 
     protected function setUp(): void
     {
-        parent::setUp();
         $this->propertyAccessor = new PropertyAccessorDecorator(new PropertyAccessor());
-        // Killing some kittens but still better than copy-pasting all tests
-        // from parent. Our decorator must work the same as the decorated
-        // class.
-        $ro = new ReflectionClass(PropertyAccessorTest::class);
-        $property = $ro->getProperty('propertyAccessor');
-        $property->setAccessible(true);
-        $property->setValue($this, $this->propertyAccessor);
     }
 
     /**
