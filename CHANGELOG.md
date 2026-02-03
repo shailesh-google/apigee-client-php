@@ -1,4 +1,8 @@
 # CHANGELOG
+## [3.0.11](https://github.com/apigee/apigee-client-php/milestone/38?closed=1)
+* [#454] support new firebase/php-jwt ^7.0 version.
+* [#459] Drop support for PHP 8.1 (EOL).
+
 ## [3.0.10](https://github.com/apigee/apigee-client-php/milestone/37?closed=1)
 * [#422] Support to update AppGroup app credential scope object.
 
