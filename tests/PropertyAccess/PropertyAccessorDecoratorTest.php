@@ -124,7 +124,6 @@ class PropertyAccessorDecoratorTest extends PropertyAccessorTest
         // class.
         $ro = new ReflectionClass(PropertyAccessorTest::class);
         $property = $ro->getProperty('propertyAccessor');
-        $property->setAccessible(true);
         $property->setValue($this, $this->propertyAccessor);
     }
 
@@ -412,6 +411,9 @@ class PropertyAccessorDecoratorTest extends PropertyAccessorTest
         parent::testIsReadableWithAsymmetricVisibility();
     }
 
+    /**
+     * @dataProvider setValueWithAsymmetricVisibilityDataProvider
+     */
     public function testSetValueWithAsymmetricVisibility(string $propertyPath = '', ?string $expectedException = null): void
     {
         if (PHP_VERSION_ID < 80400) {
