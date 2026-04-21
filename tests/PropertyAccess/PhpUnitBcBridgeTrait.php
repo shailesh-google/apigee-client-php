@@ -20,6 +20,9 @@ namespace Apigee\Edge\Tests\PropertyAccess;
 
 trait PhpUnitBcBridgeTrait
 {
+    /** @var string|null */
+    protected $expectedExceptionMessageRegExp;
+
     /**
      * BC fix for https://github.com/sebastianbergmann/phpunit/commit/d1199cb2e43a934b51521656be9748f63febe18e.
      *

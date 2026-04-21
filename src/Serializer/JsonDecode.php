@@ -43,12 +43,6 @@ final class JsonDecode extends BaseJsonDecode
      */
     public const RECURSION_DEPTH = 'json_decode_recursion_depth';
 
-    private $defaultContext = [
-        self::ASSOCIATIVE => false,
-        self::OPTIONS => 0,
-        self::RECURSION_DEPTH => 512,
-    ];
-
     /**
      * @var int
      */

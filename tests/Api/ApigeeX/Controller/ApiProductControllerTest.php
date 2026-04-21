@@ -22,7 +22,6 @@ use Apigee\Edge\Api\ApigeeX\Controller\ApiProductController;
 use Apigee\Edge\ClientInterface;
 use Apigee\Edge\Tests\Test\Controller\EntityControllerTester;
 use Apigee\Edge\Tests\Test\Controller\EntityControllerTesterInterface;
-use Apigee\Edge\Tests\Test\Controller\EntityLoadOperationControllerTestTrait;
 
 /**
  * Class ApiProductControllerTest.
@@ -32,8 +31,6 @@ use Apigee\Edge\Tests\Test\Controller\EntityLoadOperationControllerTestTrait;
  */
 class ApiProductControllerTest extends EntityControllerTestBase
 {
-    use EntityLoadOperationControllerTestTrait;
-
     public function testEligibleProducts(): void
     {
         /** @var \Apigee\Edge\Api\ApigeeX\Controller\ApiProductControllerInterface $controller */

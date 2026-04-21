@@ -178,7 +178,7 @@ trait PaginationHelperTrait
             $responseArray = $this->getResultsInRange($pager, $query_params);
             // Ignore entity type key from response, ex.: developer,
             // apiproduct, etc.
-            $responseArray = reset($responseArray);
+            $responseArray = reset($responseArray) ?: [];
 
             return $this->responseArrayToArrayOfEntities($responseArray, $key_provider);
         } else {
@@ -186,7 +186,7 @@ trait PaginationHelperTrait
             $responseArray = $this->getResultsInRange($this->createPager(), $query_params);
             // Ignore entity type key from response, ex.: developer, apiproduct,
             // etc.
-            $responseArray = reset($responseArray);
+            $responseArray = reset($responseArray) ?: [];
             if (empty($responseArray)) {
                 return [];
             }
@@ -197,12 +197,14 @@ trait PaginationHelperTrait
                 $tmp = $this->getResultsInRange($this->createPager(0, $lastId), $query_params);
                 // Ignore entity type key from response, ex.: developer,
                 // apiproduct, etc.
-                $tmp = reset($tmp);
+                $tmp = reset($tmp) ?: [];
                 // Remove the first item from the list because it is the same
                 // as the last item of $entities at this moment.
                 // Apigee Edge response always starts with the requested entity
                 // (startKey).
-                array_shift($tmp);
+                if (!empty($tmp)) {
+                    array_shift($tmp);
+                }
                 $tmpEntities = $this->responseArrayToArrayOfEntities((array) $tmp, $key_provider);
 
                 if (count($tmpEntities) > 0) {
@@ -245,7 +247,7 @@ trait PaginationHelperTrait
         $response = $this->getClient()->get($uri);
         $responseArray = $this->responseToArray($response);
         // Ignore entity type key from response, ex.: apiProduct.
-        $responseArray = reset($responseArray);
+        $responseArray = reset($responseArray) ?: [];
 
         $entities = $this->responseArrayToArrayOfEntities($responseArray, $key_provider);
 
@@ -403,7 +405,7 @@ trait PaginationHelperTrait
         // instead of that because it does not require to construct an
         // API response object.
         if (false === $offset) {
-            throw new RuntimeException(sprintf('CPS simulation error: "%s" does not exist.', $start_key));
+            throw new RuntimeException(sprintf('CPS simulation error: "%s" does not exist.', (string) $start_key));
         }
 
         // The default pagination limit (aka. "count") on CPS supported

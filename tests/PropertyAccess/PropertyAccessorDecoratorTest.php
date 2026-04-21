@@ -31,9 +31,20 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\PropertyAccess\Tests\PropertyAccessorTest;
 use TypeError;
 
-class PropertyAccessorDecoratorTest extends PropertyAccessorTest
-{
-    use PhpUnitBcBridgeTrait;
+if (!class_exists(PropertyAccessorTest::class)) {
+    // Avoid fatal error if the symfony/property-access Tests folder was not installed (e.g. via --prefer-dist).
+    class PropertyAccessorDecoratorTest extends \PHPUnit\Framework\TestCase
+    {
+        public function testSkip(): void
+        {
+            $this->markTestSkipped('Symfony\Component\PropertyAccess\Tests\PropertyAccessorTest is not available.');
+        }
+    }
+} else {
+    class PropertyAccessorDecoratorTest extends PropertyAccessorTest
+    {
+        use PhpUnitBcBridgeTrait;
+
 
     /**
      * @var PropertyAccessorDecorator
@@ -421,4 +432,5 @@ class PropertyAccessorDecoratorTest extends PropertyAccessorTest
         }
         parent::testSetValueWithAsymmetricVisibility($propertyPath, $expectedException);
     }
+}
 }

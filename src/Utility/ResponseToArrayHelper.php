@@ -36,11 +36,11 @@ trait ResponseToArrayHelper
      * The SDK only works with JSON responses, but let's be prepared for the unexpected.
      *
      * @param ResponseInterface $response
-     * @param bool $expandCompatability
+     * @param bool $expandCompatibility
      *   If the API response requires backwards compatibility with the way Edge
      *   formats it's responses.
      *
-     * @see For reference on $expandCompatability, see the structure of
+     * @see For reference on $expandCompatibility, see the structure of
      *   expand=false query parameter on the Hybrid documentation:
      *   https://docs.apigee.com/hybrid/beta2/reference/apis/unsupported-apis
      *

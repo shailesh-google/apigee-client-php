@@ -87,10 +87,6 @@ abstract class AcceptedRatePlanController extends OrganizationAwareEntityControl
 
         $payload = $this->getEntitySerializer()->serialize($acceptedRatePlan, 'json');
 
-        $tmp = json_decode($payload, true);
-
-        $payload = json_encode($tmp);
-
         $response = $this->client->post($this->getBaseEndpointUri(), $payload);
         $this->getEntitySerializer()->setPropertiesFromResponse($response, $acceptedRatePlan);
 
@@ -105,7 +101,7 @@ abstract class AcceptedRatePlanController extends OrganizationAwareEntityControl
     public function updateSubscription(AcceptedRatePlanInterface $acceptedRatePlan): void
     {
         $id = $acceptedRatePlan->getName();
-        $response = $this->client->post($this->getEntityCancelEndpointUri($id));
+        $this->client->post($this->getEntityCancelEndpointUri($id));
     }
 
     /**

@@ -57,7 +57,7 @@ class ApiProductController extends OrganizationAwareEntityController implements 
      */
     public function getAvailableApixProductsByDeveloper(string $developerId, bool $active = false, bool $allAvailable = true): array
     {
-        return $this->getAvailablexApiProducts('developers', $developerId, $active, $allAvailable);
+        return $this->getAvailablexApiProducts($active);
     }
 
     /**
@@ -65,7 +65,7 @@ class ApiProductController extends OrganizationAwareEntityController implements 
      */
     public function getAvailableApixProductsByCompany(string $company, bool $active = false, bool $allAvailable = true): array
     {
-        return $this->getAvailablexApiProducts('companies', $company, $active, $allAvailable);
+        return $this->getAvailablexApiProducts($active);
     }
 
     /**
@@ -92,10 +92,8 @@ class ApiProductController extends OrganizationAwareEntityController implements 
         return $this->client->getUriFactory()->createUri("/organizations/{$this->organization}/apiproducts");
     }
 
-    private function getAvailablexApiProducts(string $type, string $id, bool $active = false, bool $allAvailable = true): array
+    private function getAvailablexApiProducts(bool $active = false): array
     {
-        $id = rawurlencode($id);
-
         return $this->listEntities($this->client->getUriFactory()->createUri("/organizations/{$this->organization}/apiproducts")->withQuery(http_build_query([
             'expand' => $active ? 'true' : 'false',
         ])));
@@ -116,14 +114,11 @@ class ApiProductController extends OrganizationAwareEntityController implements 
      */
     private function getEligibleProducts(string $type, string $entityId): array
     {
-        $entityId = rawurlencode($entityId);
         $products = [];
-
-        $subscriptions = [];
         $subscribed_product_ids = [];
+
         if ('developers' == $type) {
             // Developer subscriptions.
-            /** @var DeveloperAcceptedRatePlanController $dev_accepted_rateplan */
             $dev_accepted_rateplan = new DeveloperAcceptedRatePlanController($entityId, $this->organization, $this->client);
             $subscriptions = $dev_accepted_rateplan->getAllAcceptedRatePlans();
 
@@ -134,11 +129,10 @@ class ApiProductController extends OrganizationAwareEntityController implements 
             }
         }
 
-        $current_ms = substr((string) (microtime(true) * 1000), 0);
+        $current_ms = (string) (((int) microtime(true)) * 1000);
 
-        foreach ($this->getAvailablexApiProducts($type, $entityId, true) as $item) {
+        foreach ($this->getAvailablexApiProducts(true) as $item) {
             // Create a new rate plan controller.
-            /** @var RatePlanController $rateplan */
             $rateplan = new RatePlanController($item->id(), $this->organization, $this->client);
 
             if (empty($rateplan->getEntities())) {

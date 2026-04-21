@@ -116,13 +116,11 @@ abstract class PrepaidBalanceController extends OrganizationAwareEntityControlle
     /**
      * Helper function which returns prepaid balances..
      *
-     * @param string|null $currencyCode
-     *
      * @return PrepaidBalanceInterface[]
      *
      * @psalm-suppress PossiblyNullArrayOffset - id() does not return null here.
      */
-    private function listPrepaidBalances(?string $currencyCode = null): array
+    private function listPrepaidBalances(): array
     {
         $balances = [];
         foreach ($this->getRawList($this->getPrepaidBalanceEndpoint()) as $item) {

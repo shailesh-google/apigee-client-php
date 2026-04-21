@@ -103,7 +103,11 @@ class ObjectDenormalizer implements DenormalizerInterface, SerializerAwareInterf
         // @see \Apigee\Edge\PropertyAccess\PropertyAccessorDecorator::setValue()
         foreach ($cleanData as $key => $value) {
             if (is_array($value) && empty($value)) {
-                unset($cleanData->{$key});
+                if (is_object($cleanData)) {
+                    unset($cleanData->{$key});
+                } else {
+                    unset($cleanData[$key]);
+                }
             }
         }
 
